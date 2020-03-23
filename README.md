@@ -14,7 +14,7 @@ But two of the leading challenges of this technology can be mentioned below:
 2. Desgin of industrial reactor
 
 ### Oxidative dehydration reactions
-![ODH Reactions](/Rxns.JPG)
+![ODH Reactions](/img/Rxns.JPG)
 
 Solve systems of time variante PDEs:
 Space domain | Time domain
@@ -23,13 +23,13 @@ Space domain | Time domain
 ODE Runge-Kutta | Orthogonal Collocation 
 
 ### Gas Mass Balance
-![Gas](/GasMass.JPG)
+![Gas](/img/GasMass.JPG)
 
 ### Gas Energy Balance
-![Gas](/GasEnergy.JPG)
+![Gas](/img/GasEnergy.JPG)
 
 ### Solid Mass Balance
-![Solid](/SolidMass.JPG)
+![Solid](/img/SolidMass.JPG)
 
 ### Solid Energy Balance
-![Solid](/SolidEnergy.JPG)
+![Solid](/img/SolidEnergy.JPG)
