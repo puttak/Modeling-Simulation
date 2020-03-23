@@ -29,7 +29,7 @@ ODE Runge-Kutta | Orthogonal Collocation
 ![Gas](/GasEnergy.JPG)
 
 ### Solid Mass Balance
-![Gas](/SolidMass.JPG)
+![Solid](/SolidMass.JPG)
 
 ### Solid Energy Balance
-![Gas](/SolidEnergy.JPG)
+![Solid](/SolidEnergy.JPG)
