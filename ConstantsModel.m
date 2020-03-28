@@ -66,38 +66,53 @@ RnxKinetic = struct('Aprime',[4.95 1.35 1.76 2.61 2.16]*(1/1000)*(1/3600),...
 %% Defining the require constants for 
 
 %% Calculation 
-Nz=50; %No. of interior point in z direction
-Nr=30; %No. of interior point in r direction
-zmin=0; zmax=1;
-rmin=0; rmax=1;
-z_nodes=[0,0.001,sort(Roots_of_Jacobi_Polynomial(0,0,Nz))',0.999,1] ;  %Roots of Jacobi Polynomial with (a,b==0) in z direction
-z_nodes=(zmax-zmin)*z_nodes+zmin;
-r_nodes=[0,0.001,sort(Roots_of_Jacobi_Polynomial(0,0,Nr))',0.999,1] ;  %Roots of Jacobi Polynomial with (a,b==0) in r direction
-r_nodes=(rmax-rmin)*r_nodes+rmin;
+Nz = 5; %No. of interior point in z direction
+Nr = 3; %No. of interior point in r direction
+zmin = 0; zmax = 1;
+rmin = 0; rmax = 1;
+z_nodes = [0,0.001,sort(Roots_of_Jacobi_Polynomial(0,0,Nz))',0.999,1] ;  %Roots of Jacobi polynomial with (a,b==0) in z direction
+z_nodes = (zmax-zmin)*z_nodes+zmin;
+r_nodes = [0,0.001,sort(Roots_of_Jacobi_Polynomial(0,0,Nr))',0.999,1] ;  %Roots of Jacobi polynomial with (a,b==0) in r direction
+r_nodes = (rmax-rmin)*r_nodes+rmin;
 syms x
-Lz=sym(ones(numel(z_nodes),1));
+Lz = sym(ones(numel(z_nodes),1));
 for i=1:numel(z_nodes)
     for j=1:numel(z_nodes)
         if j~=i
-            Lz(i,1)=(x-z_nodes(j))/(z_nodes(i)-z_nodes(j))*Lz(i,1);
-            %L is Lagrange Interpolation Polynomial in z direction
+            Lz(i,1) = (x-z_nodes(j))/(z_nodes(i)-z_nodes(j))*Lz(i,1);
+            %Lz is Lagrange interpolation polynomial in z direction
         end
     end 
 end
-Lr=sym(ones(numel(r_nodes),1));
+Lr = sym(ones(numel(r_nodes),1));
 for i=1:numel(r_nodes)
     for j=1:numel(r_nodes)
         if j~=i
-            Lr(i,1)=(x-r_nodes(j))/(r_nodes(i)-r_nodes(j))*Lr(i,1);
-            %L is Lagrange Interpolation Polynomial in r direction
+            Lr(i,1) = (x-r_nodes(j))/(r_nodes(i)-r_nodes(j))*Lr(i,1);
+            %Lr is Lagrange interpolation polynomial in r direction
         end
     end 
 end
-Lz_prime=diff(Lz);      %First Drivative of Lagrange Polynomial in z direction
-Lz_Zegond=diff(Lz,2);   %Second Drivative of Lagrange Polynomial in z direction
-Lr_prime=diff(Lr);      %First Drivative of Lagrange Polynomial in r direction
-Lr_Zegond=diff(Lr,2);   %Second Drivative of Lagrange Polynomial in r direction
-
+Lz_prime = diff(Lz);      %First drivative of Lagrange polynomial in z direction
+Lz_Zegond = diff(Lz,2);   %Second drivative of Lagrange polynomial in z direction
+Lr_prime = diff(Lr);      %First drivative of Lagrange polynomial in r direction
+Lr_Zegond = diff(Lr,2);   %Second drivative of Lagrange polynomial in r direction
+Az = zeros(numel(z_nodes));
+Bz = zeros(numel(z_nodes));
+for i = 1:numel(z_nodes)
+    for j = 1:numel(z_nodes)
+        Az(i,j) = double(subs(Lz_prime(j),z_nodes(i)));
+        Bz(i,j) = double(subs(Lz_Zegond(j),z_nodes(i))); 
+    end    
+end
+Ar = zeros(numel(r_nodes));
+Br = zeros(numel(r_nodes));
+for i = 1:numel(r_nodes)
+    for j = 1:numel(r_nodes)
+        Ar(i,j) = double(subs(Lr_prime(j),r_nodes(i)));
+        Br(i,j) = double(subs(Lr_Zegond(j),r_nodes(i)));
+    end    
+end
 
 
 
