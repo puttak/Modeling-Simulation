@@ -59,11 +59,12 @@ components = [C2H6 C2H4 O2 CO2 CO H2O];
 %
 % Aprime(A'): [mmol/(g*h)][mol/(g*s)]   EnergyA: [kJ/mol][J/mol]      m: [unitless]
 % component coefficients  vcoffrxn: [unitless]
+% component order list: [C2H6 C2H4 O2 CO2 CO H2O]
 
 RnxKinetic = struct('Aprime',[4.95 1.35 1.76 2.61 2.16]*(1/1000)*(1/3600),...
     'EnergyA', [7.55e01 5.24e01 1.43e02 1.10e02 8.80e01]*(1000),...  
     'm', [1 5.45e-02 1.07 1.71e-01 5.38e-01],...
-    'vcoffrxn', [-1 -0.5 1 1; -1 -3.5 2 3; -1 -2.5 2 3; -1 -3 2 2; -1 -2 2 2]); 
+    'vcoffrxn', [-1 1 -0.5 0 0 1; -1 0 -3.5 2 0 3; -1 0 -2.5 0 2 3; 0 -1 -3 2 0 2; 0 -1 -2 0 2 2]); 
 
 %% Defining the require constants for 
 
