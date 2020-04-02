@@ -1,4 +1,4 @@
-clc;clear all;close all
+clc;clear all;close all;
 %% Defining the require constans of catalyts and reactor dimensions
 
 L = 2.5;                         % [m]                              Length of reactor
@@ -11,10 +11,10 @@ as = 6*(1-epsilon)/(Phis*dp);    % [m^2/m^3]                        External sur
 
 %% Defining the require constans of operation conditions
 
-P = 1*101325;                    % [atm][Pa]                        Pressure of reactor bed
-Tb = 450+273.15:600+273.15;      % [oC][K]                          Temperature of reactor coolant
-T0 = 300+273.15;                 % [oC][K]                          Temperature of inlet reactor
-Rep = 1400;                      % [unitless]                              Reynolds number
+P = 1*(101325);                  % [atm][Pa]                        Pressure of reactor bed
+Tb = 450+(273.15):600+(273.15);  % [oC][K]                          Temperature of reactor coolant
+T0 = 300+(273.15);               % [oC][K]                          Temperature of inlet reactor
+Rep = 1400;                      % [unitless]                       Reynolds number
 Flowin = 4*(1/3600);             % [Nm^3/h][Nm^3/s]                 Inlet volume flowrate 
 C_ethan = 1:2;                   % [%mol]                           Mole frac of inlet ethane
 c_air = 98:99;                   % [%mol]                           Mole frac of inlet Air
@@ -77,22 +77,30 @@ z_nodes = [0,0.001,sort(Roots_of_Jacobi_Polynomial(0,0,Nz))',0.999,1] ;  % Roots
 z_nodes = (zmax-zmin)*z_nodes+zmin;
 r_nodes = [0,0.001,sort(Roots_of_Jacobi_Polynomial(0,0,Nr))',0.999,1] ;  % Roots of Jacobi polynomial with (a,b==0) in r direction
 r_nodes = (rmax-rmin)*r_nodes+rmin;
-syms x
+syms z
 Lz = sym(ones(numel(z_nodes),1));
 for i=1:numel(z_nodes)
     for j=1:numel(z_nodes)
         if j~=i
+<<<<<<< HEAD
             Lz(i,1) = (x-z_nodes(j))/(z_nodes(i)-z_nodes(j))*Lz(i,1);
+=======
+            Lz(i,1) = (z-z_nodes(j))/(z_nodes(i)-z_nodes(j))*Lz(i,1);
+
             % Lz is Lagrange interpolation polynomial in z direction
         end
     end 
 end
+syms r
 Lr = sym(ones(numel(r_nodes),1));
 for i=1:numel(r_nodes)
     for j=1:numel(r_nodes)
         if j~=i
+<<<<<<< HEAD
             Lr(i,1) = (x-r_nodes(j))/(r_nodes(i)-r_nodes(j))*Lr(i,1);
-            % Lr is Lagrange interpolation polynomial in r direction
+=======
+            Lr(i,1) = (r-r_nodes(j))/(r_nodes(i)-r_nodes(j))*Lr(i,1);
+	    % Lr is Lagrange interpolation polynomial in r direction
         end
     end 
 end
