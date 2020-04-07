@@ -12,8 +12,8 @@ as = 6*(1-epsilon)/(Phis*dp);    % [m^2/m^3]                        External sur
 %% Defining the require constants of operation conditions
 
 P = 1*(101325);                  % [atm][Pa]                        Pressure of reactor bed.
-Tj = 450+(273.15);               % [oC][K]                          Temperature of reactor coolant.(450-600 C)
-Tin = 300+(273.15);              % [oC][K]                          Temperature of inlet reactor.
+Tb = 450+(273.15);               % [oC][K]                          Temperature of reactor coolant.(450-600 C)
+T0 = 300+(273.15);               % [oC][K]                          Temperature of inlet reactor.
 Rep = 1400;                      % [unitless]                       Reynolds number.
 Flowin = 4*(1/3600);             % [Nm^3/h][Nm^3/s]                 Inlet volume flowrate.
 y_Air_in = 99;                   % [%mol]                           Mole frac of inlet Air.(98-99 %)
@@ -134,20 +134,20 @@ end
 Nz=length(z_nodes)-2;
 Nr=length(r_nodes)-2;
 
-Initial_Guess_C_C2H6=ones(Nz,Nr)*((P*y_C2H6_in)/(R*Tin));
-Initial_Guess_C_C2H4=ones(Nz,Nr)*((P*y_C2H4_in)/(R*Tin));
-Initial_Guess_C_O2=ones(Nz,Nr)*((P*y_O2_in)/(R*Tin));
-Initial_Guess_C_CO2=ones(Nz,Nr)*((P*y_CO2_in)/(R*Tin));
-Initial_Guess_C_CO=ones(Nz,Nr)*((P*y_CO_in)/(R*Tin));
-Initial_Guess_C_H2O=ones(Nz,Nr)*((P*y_H2O_in)/(R*Tin));
+Initial_Guess_C_C2H6=ones(Nz,Nr)*((P*y_C2H6_in)/(R*T0));
+Initial_Guess_C_C2H4=ones(Nz,Nr)*((P*y_C2H4_in)/(R*T0));
+Initial_Guess_C_O2=ones(Nz,Nr)*((P*y_O2_in)/(R*T0));
+Initial_Guess_C_CO2=ones(Nz,Nr)*((P*y_CO2_in)/(R*T0));
+Initial_Guess_C_CO=ones(Nz,Nr)*((P*y_CO_in)/(R*T0));
+Initial_Guess_C_H2O=ones(Nz,Nr)*((P*y_H2O_in)/(R*T0));
 Initial_Guess_Cs_C2H6=zeros(Nz,Nr);
 Initial_Guess_Cs_C2H4=zeros(Nz,Nr);
 Initial_Guess_Cs_O2=zeros(Nz,Nr);
 Initial_Guess_Cs_CO2=zeros(Nz,Nr);
 Initial_Guess_Cs_CO=zeros(Nz,Nr);
 Initial_Guess_Cs_H2O=zeros(Nz,Nr);
-Initial_Guess_T=ones(Nz,Nr)*Tin;
-Initial_Guess_Ts=ones(Nz,Nr)*Tin;
+Initial_Guess_T=ones(Nz,Nr)*T0;
+Initial_Guess_Ts=ones(Nz,Nr)*T0;
 
 Initial_Guess=[reshape(Initial_Guess_C_C2H6,1,Nz*Nr)  ,  reshape(Initial_Guess_C_C2H4,1,Nz*Nr)  ,...
                reshape(Initial_Guess_C_O2,1,Nz*Nr)    ,  reshape(Initial_Guess_C_CO2,1,Nz*Nr)   ,...
