@@ -12,7 +12,7 @@ as = 6*(1-epsilon)/(Phis*dp);    % [m^2/m^3]                        External sur
 %% Defining the require constants of operation conditions
 
 P = 1*(101325);                  % [atm][Pa]                        Pressure of reactor bed.
-Tj = 450+(273.15):600+(273.15);  % [oC][K]                          Temperature of reactor coolant.
+Tj = 450+(273.15);               % [oC][K]                          Temperature of reactor coolant.(450-600 C)
 Tin = 300+(273.15);              % [oC][K]                          Temperature of inlet reactor.
 Rep = 1400;                      % [unitless]                       Reynolds number.
 Flowin = 4*(1/3600);             % [Nm^3/h][Nm^3/s]                 Inlet volume flowrate.
@@ -59,7 +59,9 @@ CO   = struct('Mw',28.01,   'Tc',134.18,    'Pc',3710046,...
     'cp_R',[3.376,0.000557,0,-3100,2500]        ,'deltaS0',8.66e01 ,'deltaH0',(1000)*4.09e01);
 H2O  = struct('Mw',18.015,  'Tc',647.1081,  'Pc',22072227,...
     'cp_R',[3.47,0.00145,0,12100,2000]          ,'deltaS0',5.27e01 ,'deltaH0',(1000)*8.63e01);
-components = [C2H6 C2H4 O2 CO2 CO H2O];
+N2   = struct('Mw',28.014,  'Tc',126.2069,  'Pc',3398154.1,...
+    'cp_R',[3.28,0.000593,0,4000,2000]          ,'deltaS0',[]      ,'deltaH0',[]            );
+components = [C2H6 C2H4 O2 CO2 CO H2O N2];
 
 %% Defining the require constants for kinetic of reactions
 %
