@@ -16,18 +16,18 @@ Tb = 450+(273.15);               % [oC][K]                          Temperature 
 T0 = 300+(273.15);               % [oC][K]                          Temperature of inlet reactor.
 Rep = 1400;                      % [unitless]                       Reynolds number.
 Flowin = 4*(1/3600);             % [Nm^3/h][Nm^3/s]                 Inlet volume flowrate.
-y_Air_in = .99;                  % [%mol]                           Mole frac of inlet Air.(98-99 %)
+y_Air_in = 0.99;                 % [%mol]                           Mole frac of inlet Air.(98-99 %)
 y_N2_in = y_Air_in*0.79;         % [%mol]                           Mole frac of inlet Nitrogen.
-y_C2H6_in = 1;                   % [%mol]                           Mole frac of inlet Ethane.(1-2 %)
+y_C2H6_in = 0.01;                % [%mol]                           Mole frac of inlet Ethane.(1-2 %)
 y_C2H4_in = 0;                   % [%mol]                           Mole frac of inlet Ethene.
 y_O2_in = y_Air_in*0.21;         % [%mol]                           Mole frac of inlet Oxygen.
 y_CO2_in = 0;                    % [%mol]                           Mole frac of inlet Carbon dioxid.
 y_CO_in = 0;                     % [%mol]                           Mole frac of inlet Carbon monoxid.
 y_H2O_in = 0;                    % [%mol]                           Mole frac of inlet Water.
-y_tot = [y_C2H6_in        ...
-        y_C2H4_in y_O2_in ...
-        y_CO2_in y_CO_in  ...
-        y_H2O_in y_N2_in ];      % [%mol]                           Mole frac list of total componets [C2H6 C2H4 O2 CO2 CO H2O N2]
+y_tot = [y_C2H6_in          ...
+         y_C2H4_in y_O2_in  ...
+         y_CO2_in  y_CO_in  ...
+         y_H2O_in  y_N2_in ];    % [%mol]                           Mole frac list of total componets [C2H6 C2H4 O2 CO2 CO H2O N2]
 
 %% Defining the require constants 
 
@@ -52,26 +52,19 @@ R = 8.314;                       % [J/(mol*K)]                      Gas constant
 % R=8.314 (J/mol*K)
 
 C2H6 = struct('Mw',30.07,   'Tc',305.406,   'Pc',4880109,...
-    'cp_R',[1.131,0.019225,-0.000005561,0,1500] ,'deltaS0',5.27e01 ,...
-    'deltaH0',(1000)*4.8e01, 'gas_concentration',[], 'solid_concentration',[] );
+    'cp_R',[1.131,0.019225,-0.000005561,0,1500] ,'deltaS0',[]      ,'deltaH0',[]);
 C2H4 = struct('Mw',28.054,  'Tc',282.3438,  'Pc',5045427,...
-    'cp_R',[1.424,0.014394,-0.000004392,0,1500] ,'deltaS0',4.34e01 ,...
-    'deltaH0',(1000)*1.48e02,'gas_concentration',[], 'solid_concentration',[] );
+    'cp_R',[1.424,0.014394,-0.000004392,0,1500] ,'deltaS0',[]      ,'deltaH0',[]);
 O2   = struct('Mw',31.998,  'Tc',154.645,   'Pc',5043213,...
-    'cp_R',[3.639,0.000506,0,-22700,2000]       ,'deltaS0',5.59e01 ,...
-    'deltaH0',(1000)*6.02e01,'gas_concentration',[], 'solid_concentration',[] );
+    'cp_R',[3.639,0.000506,0,-22700,2000]       ,'deltaS0',[]      ,'deltaH0',[]);
 CO2  = struct('Mw',44.009,  'Tc',304.1548,  'Pc',7380862,...
-    'cp_R',[5.457,0.001045,0,-115700,2000]      ,'deltaS0',5.66e01 ,...
-    'deltaH0',(1000)*8.38e01,'gas_concentration',[], 'solid_concentration',[] );
+    'cp_R',[5.457,0.001045,0,-115700,2000]      ,'deltaS0',[]      ,'deltaH0',[]);
 CO   = struct('Mw',28.01,   'Tc',134.18,    'Pc',3710046,...
-    'cp_R',[3.376,0.000557,0,-3100,2500]        ,'deltaS0',8.66e01 ,...
-    'deltaH0',(1000)*4.09e01,'gas_concentration',[], 'solid_concentration',[] );
+    'cp_R',[3.376,0.000557,0,-3100,2500]        ,'deltaS0',[]      ,'deltaH0',[]);
 H2O  = struct('Mw',18.015,  'Tc',647.1081,  'Pc',22072227,...
-    'cp_R',[3.47,0.00145,0,12100,2000]          ,'deltaS0',5.27e01 ,...
-    'deltaH0',(1000)*8.63e01,'gas_concentration',[], 'solid_concentration',[] );
+    'cp_R',[3.47,0.00145,0,12100,2000]          ,'deltaS0',[]      ,'deltaH0',[]);
 N2   = struct('Mw',28.014,  'Tc',126.2069,  'Pc',3398154.1,...
-    'cp_R',[3.28,0.000593,0,4000,2000]          ,'deltaS0',[]      ,...
-    'deltaH0',[]            ,'gas_concentration',[], 'solid_concentration',[] );
+    'cp_R',[3.28,0.000593,0,4000,2000]          ,'deltaS0',[]      ,'deltaH0',[]);
 
 components = [C2H6 C2H4 O2 CO2 CO H2O N2];       % List of components
 
@@ -87,8 +80,7 @@ RnxKinetic = struct('Aprime',[4.95 1.35 1.76 2.61 2.16]*(1/1000)*(1/3600),...
     'EnergyA', [7.55e01 5.24e01 1.43e02 1.10e02 8.80e01]*(1000),...
     'm', [1 5.45e-02 1.07 1.71e-01 5.38e-01],...
     'vcoffrxn', [-1 1 -0.5 0 0 1 0; -1 0 -3.5 2 0 3 0;...
-                 -1 0 -2.5 0 2 3 0; 0 -1 -3 2 0 2 0; 0 -1 -2 0 2 2 0],...
-    'Gas_temp', [], 'Solid_temp', [] );
+                 -1 0 -2.5 0 2 3 0; 0 -1 -3 2 0 2 0; 0 -1 -2 0 2 2 0]);
 
 %% Calculation
 
@@ -148,18 +140,28 @@ end
 Nz = length(z_nodes)-2;  % Declare the number of Interior nodes for BC
 Nr = length(r_nodes)-2;  % Declare the number of Interior nodes for BC
 
-%-------------- Initialize the composition of components ------------------
+Initial_Guess_C_C2H6  =  ones(Nz,Nr)*((P*y_C2H6_in)/(R*T0));
+Initial_Guess_C_C2H4  =  ones(Nz,Nr)*((P*y_C2H4_in)/(R*T0));
+Initial_Guess_C_O2    =  ones(Nz,Nr)*((P*y_O2_in)/(R*T0))  ;
+Initial_Guess_C_CO2   =  ones(Nz,Nr)*((P*y_CO2_in)/(R*T0)) ;
+Initial_Guess_C_CO    =  ones(Nz,Nr)*((P*y_CO_in)/(R*T0))  ;
+Initial_Guess_C_H2O   =  ones(Nz,Nr)*((P*y_H2O_in)/(R*T0)) ;
+Initial_Guess_Cs_C2H6 =  zeros(Nz,Nr);
+Initial_Guess_Cs_C2H4 =  zeros(Nz,Nr);
+Initial_Guess_Cs_O2   =  zeros(Nz,Nr);
+Initial_Guess_Cs_CO2  =  zeros(Nz,Nr);
+Initial_Guess_Cs_CO   =  zeros(Nz,Nr);
+Initial_Guess_Cs_H2O  =  zeros(Nz,Nr);
+Initial_Guess_T       =  ones(Nz,Nr)*T0;
+Initial_Guess_Ts      =  ones(Nz,Nr)*T0;
 
-for i = 1:length(components)-1
-   components(i).gas_concentration = ones(Nz,Nr)*((P*y_tot(i))/(R*T0));
-end
-
-for i = 1:length(components)-1
-   components(i).solid_concentration = zeros(Nz,Nr);
-end
-
-RnxKinetic.Gas_temp     =  ones(Nz,Nr)*T0;
-RnxKinetic.Solid_temp   =  ones(Nz,Nr)*T0;
+Initial_Guess=[reshape(Initial_Guess_C_C2H6,1,Nz*Nr)  ,  reshape(Initial_Guess_C_C2H4,1,Nz*Nr)  ,...
+               reshape(Initial_Guess_C_O2,1,Nz*Nr)    ,  reshape(Initial_Guess_C_CO2,1,Nz*Nr)   ,...
+               reshape(Initial_Guess_C_CO,1,Nz*Nr)    ,  reshape(Initial_Guess_C_H2O,1,Nz*Nr)   ,...
+               reshape(Initial_Guess_Cs_C2H6,1,Nz*Nr) ,  reshape(Initial_Guess_Cs_C2H4,1,Nz*Nr) ,...
+               reshape(Initial_Guess_Cs_O2,1,Nz*Nr)   ,  reshape(Initial_Guess_Cs_CO2,1,Nz*Nr)  ,...
+               reshape(Initial_Guess_Cs_CO,1,Nz*Nr)   ,  reshape(Initial_Guess_Cs_H2O,1,Nz*Nr)  ,...
+               reshape(Initial_Guess_T,1,Nz*Nr)       ,  reshape(Initial_Guess_Ts,1,Nz*Nr)          ];
 
 %===Solver ----------------------------------------------------------------
 
