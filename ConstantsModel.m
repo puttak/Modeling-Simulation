@@ -133,7 +133,7 @@ end
 %===Initial guess ---------------------------------------------------------
 
 Nz = length(z_nodes)-2;  % Declare the number of Interior nodes for BC
-Nr = length(r_nodes)-2;
+Nr = length(r_nodes)-2;  % Declare the number of Interior nodes for BC
 
 Initial_Guess_C_C2H6  =  ones(Nz,Nr)*((P*y_C2H6_in)/(R*T0));
 Initial_Guess_C_C2H4  =  ones(Nz,Nr)*((P*y_C2H4_in)/(R*T0));
