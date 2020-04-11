@@ -16,7 +16,7 @@ Tb = 450+(273.15);               % [oC][K]                          Temperature 
 T0 = 300+(273.15);               % [oC][K]                          Temperature of inlet reactor.
 Rep = 1400;                      % [unitless]                       Reynolds number.
 Flowin = 4*(1/3600);             % [Nm^3/h][Nm^3/s]                 Inlet volume flowrate.
-y_Air_in = 99;                   % [%mol]                           Mole frac of inlet Air.(98-99 %)
+y_Air_in = .99;                  % [%mol]                           Mole frac of inlet Air.(98-99 %)
 y_N2_in = y_Air_in*0.79;         % [%mol]                           Mole frac of inlet Nitrogen.
 y_C2H6_in = 1;                   % [%mol]                           Mole frac of inlet Ethane.(1-2 %)
 y_C2H4_in = 0;                   % [%mol]                           Mole frac of inlet Ethene.
@@ -87,7 +87,8 @@ RnxKinetic = struct('Aprime',[4.95 1.35 1.76 2.61 2.16]*(1/1000)*(1/3600),...
     'EnergyA', [7.55e01 5.24e01 1.43e02 1.10e02 8.80e01]*(1000),...
     'm', [1 5.45e-02 1.07 1.71e-01 5.38e-01],...
     'vcoffrxn', [-1 1 -0.5 0 0 1 0; -1 0 -3.5 2 0 3 0;...
-                 -1 0 -2.5 0 2 3 0; 0 -1 -3 2 0 2 0; 0 -1 -2 0 2 2 0]);
+                 -1 0 -2.5 0 2 3 0; 0 -1 -3 2 0 2 0; 0 -1 -2 0 2 2 0],...
+    'Gas_temp', [], 'Solid_temp', [] );
 
 %% Calculation
 
@@ -157,23 +158,9 @@ for i = 1:length(components)-1
    components(i).solid_concentration = zeros(Nz,Nr);
 end
 
-% Initial_Guess_Cs_C2H6 =  zeros(Nz,Nr);
-% Initial_Guess_Cs_C2H4 =  zeros(Nz,Nr);
-% Initial_Guess_Cs_O2   =  zeros(Nz,Nr);
-% Initial_Guess_Cs_CO2  =  zeros(Nz,Nr);
-% Initial_Guess_Cs_CO   =  zeros(Nz,Nr);
-% Initial_Guess_Cs_H2O  =  zeros(Nz,Nr);
-Initial_Guess_T       =  ones(Nz,Nr)*T0;
-Initial_Guess_Ts      =  ones(Nz,Nr)*T0;
+RnxKinetic.Gas_temp     =  ones(Nz,Nr)*T0;
+RnxKinetic.Solid_temp   =  ones(Nz,Nr)*T0;
 
-% Initial_Guess=[reshape(Initial_Guess_C_C2H6,1,Nz*Nr)  ,  reshape(Initial_Guess_C_C2H4,1,Nz*Nr)  ,...
-%                reshape(Initial_Guess_C_O2,1,Nz*Nr)    ,  reshape(Initial_Guess_C_CO2,1,Nz*Nr)   ,...
-%                reshape(Initial_Guess_C_CO,1,Nz*Nr)    ,  reshape(Initial_Guess_C_H2O,1,Nz*Nr)   ,...
-%                reshape(Initial_Guess_Cs_C2H6,1,Nz*Nr) ,  reshape(Initial_Guess_Cs_C2H4,1,Nz*Nr) ,...
-%                reshape(Initial_Guess_Cs_O2,1,Nz*Nr)   ,  reshape(Initial_Guess_Cs_CO2,1,Nz*Nr)  ,...
-%                reshape(Initial_Guess_Cs_CO,1,Nz*Nr)   ,  reshape(Initial_Guess_Cs_H2O,1,Nz*Nr)  ,...
-%                reshape(Initial_Guess_T,1,Nz*Nr)       ,  reshape(Initial_Guess_Ts,1,Nz*Nr)          ];
-           
 %===Solver ----------------------------------------------------------------
 
 
