@@ -11,23 +11,34 @@ as = 6*(1-epsilon)/(Phis*dp);    % [m^2/m^3]                        External sur
 
 %% Defining the require constants of operation conditions
 
-P = 1*(101325);                  % [atm][Pa]                        Pressure of reactor bed.
-Tb = 450+(273.15);               % [oC][K]                          Temperature of reactor coolant.(450-600 C)
-T0 = 300+(273.15);               % [oC][K]                          Temperature of inlet reactor.
-Rep = 1400;                      % [unitless]                       Reynolds number.
-Flowin = 4*(1/3600);             % [Nm^3/h][Nm^3/s]                 Inlet volume flowrate.
-y_Air_in = 0.99;                 % [%mol]                           Mole frac of inlet Air.(98-99 %)
-y_N2_in = y_Air_in*0.79;         % [%mol]                           Mole frac of inlet Nitrogen.
-y_C2H6_in = 0.01;                % [%mol]                           Mole frac of inlet Ethane.(1-2 %)
-y_C2H4_in = 0;                   % [%mol]                           Mole frac of inlet Ethene.
-y_O2_in = y_Air_in*0.21;         % [%mol]                           Mole frac of inlet Oxygen.
-y_CO2_in = 0;                    % [%mol]                           Mole frac of inlet Carbon dioxid.
-y_CO_in = 0;                     % [%mol]                           Mole frac of inlet Carbon monoxid.
-y_H2O_in = 0;                    % [%mol]                           Mole frac of inlet Water.
+P = 1*(101325);                        % [atm][Pa]                        Pressure of reactor bed.
+Tb = 450+(273.15);                     % [oC][K]                          Temperature of reactor coolant.(450-600 C)
+T0 = 300+(273.15);                     % [oC][K]                          Temperature of inlet reactor.
+Rep = 1400;                            % [unitless]                       Reynolds number.
+Flowin = 4*(1/3600);                   % [Nm^3/h][Nm^3/s]                 Inlet volume flowrate.
+y_Air_in = 0.99;                       % [%mol]                           Mole frac of inlet Air.(98-99 %)
+y_N2_in = y_Air_in*0.79;               % [%mol]                           Mole frac of inlet Nitrogen.
+y_C2H6_in = 0.01;                      % [%mol]                           Mole frac of inlet Ethane.(1-2 %)
+y_C2H4_in = 0;                         % [%mol]                           Mole frac of inlet Ethene.
+y_O2_in = y_Air_in*0.21;               % [%mol]                           Mole frac of inlet Oxygen.
+y_CO2_in = 0;                          % [%mol]                           Mole frac of inlet Carbon dioxid.
+y_CO_in = 0;                           % [%mol]                           Mole frac of inlet Carbon monoxid.
+y_H2O_in = 0;                          % [%mol]                           Mole frac of inlet Water.
 y = [y_C2H6_in          ...
      y_C2H4_in y_O2_in  ...
      y_CO2_in  y_CO_in  ...
-     y_H2O_in  y_N2_in     ];    % [%mol]                           Mole frac list of total componets [C2H6 C2H4 O2 CO2 CO H2O N2]
+     y_H2O_in  y_N2_in     ];          % [%mol]                           Mole frac list of total componets [C2H6 C2H4 O2 CO2 CO H2O N2]
+C0_C2H6  =  ((P*y_C2H6_in)/(R*T0));    % [mol/m^3]                        Inlet concentration of C2H6
+C0_C2H4  =  ((P*y_C2H4_in)/(R*T0));    % [mol/m^3]                        Inlet concentration of C2H4
+C0_O2    =  ((P*y_O2_in)/(R*T0))  ;    % [mol/m^3]                        Inlet concentration of O2
+C0_CO2   =  ((P*y_CO2_in)/(R*T0)) ;    % [mol/m^3]                        Inlet concentration of CO2
+C0_CO    =  ((P*y_CO_in)/(R*T0))  ;    % [mol/m^3]                        Inlet concentration of CO
+C0_H2O   =  ((P*y_H2O_in)/(R*T0)) ;    % [mol/m^3]                        Inlet concentration of H2O
+C0_N2    =  ((P*y_N2_in)/(R*T0))  ;    % [mol/m^3]                        Inlet concentration of N2
+C0 = [C0_C2H6          ...     
+      C0_C2H4   C0_O2  ...
+      C0_CO2    C0_CO  ...
+      C0_H2O    C0_N2     ];           % [mol/m^3]                        Inlet concentration
 
 %% Defining the require constants 
 
