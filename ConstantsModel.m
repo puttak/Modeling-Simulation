@@ -10,7 +10,7 @@ Phis = 1;                        % [unitless]                       Sphericity f
 as = 6*(1-epsilon)/(Phis*dp);    % [m^2/m^3]                        External surface to particle volume ratio.
 
 %% Defining the require constants of operation conditions
-
+R = 8.314;                             % [J/(mol*K)]                      Gas constant.
 P = 1*(101325);                        % [atm][Pa]                        Pressure of reactor bed.
 Tb = 450+(273.15);                     % [oC][K]                          Temperature of reactor coolant.(450-600 C)
 T0 = 300+(273.15);                     % [oC][K]                          Temperature of inlet reactor.
@@ -51,8 +51,6 @@ hg = 928.8*(1000)*(1/3600);      % [kJ/(m^2*h*K)][J/(m^2*s*K)]      Surface heat
 keffr = 9.72*(1000)*(1/3600);    % [kJ/(m*h*K)][J/(m*s*K)]          Effective thermal conductivity.
                                  %                                  in the radius direction.
 hw = 1051.2*(1000)*(1/3600);     % [kJ/(m^2*h*K)][J/(m^2*s*K)]      Wall heat transfer coefficient.
-
-R = 8.314;                       % [J/(mol*K)]                      Gas constant.
 
 %% Defining the require constants of components properties
 %
@@ -151,28 +149,33 @@ end
 Nz = length(z_nodes)-2;  % Declare the number of Interior nodes for BC
 Nr = length(r_nodes)-2;  % Declare the number of Interior nodes for BC
 
-Initial_Guess_C_C2H6  =  ones(Nz,Nr)*((P*y_C2H6_in)/(R*T0));
-Initial_Guess_C_C2H4  =  ones(Nz,Nr)*((P*y_C2H4_in)/(R*T0));
-Initial_Guess_C_O2    =  ones(Nz,Nr)*((P*y_O2_in)/(R*T0))  ;
-Initial_Guess_C_CO2   =  ones(Nz,Nr)*((P*y_CO2_in)/(R*T0)) ;
-Initial_Guess_C_CO    =  ones(Nz,Nr)*((P*y_CO_in)/(R*T0))  ;
-Initial_Guess_C_H2O   =  ones(Nz,Nr)*((P*y_H2O_in)/(R*T0)) ;
-Initial_Guess_Cs_C2H6 =  zeros(Nz,Nr);
-Initial_Guess_Cs_C2H4 =  zeros(Nz,Nr);
-Initial_Guess_Cs_O2   =  zeros(Nz,Nr);
-Initial_Guess_Cs_CO2  =  zeros(Nz,Nr);
-Initial_Guess_Cs_CO   =  zeros(Nz,Nr);
-Initial_Guess_Cs_H2O  =  zeros(Nz,Nr);
-Initial_Guess_T       =  ones(Nz,Nr)*T0;
-Initial_Guess_Ts      =  ones(Nz,Nr)*T0;
+Initial_Guess_C_C2H6        =  ones(Nz,Nr)*((P*y_C2H6_in)/(R*T0));
+Initial_Guess_C_C2H4        =  ones(Nz,Nr)*((P*y_C2H4_in)/(R*T0));
+Initial_Guess_C_O2          =  ones(Nz,Nr)*((P*y_O2_in)/(R*T0))  ;
+Initial_Guess_C_CO2         =  ones(Nz,Nr)*((P*y_CO2_in)/(R*T0)) ;
+Initial_Guess_C_CO          =  ones(Nz,Nr)*((P*y_CO_in)/(R*T0))  ;
+Initial_Guess_C_H2O         =  ones(Nz,Nr)*((P*y_H2O_in)/(R*T0)) ;
+Initial_Guess_C_N2          =  ones(Nz,Nr)*((P*y_N2_in)/(R*T0))  ;
+Initial_Guess_Density_fluid =  ones(Nz,Nr)*397.5; % [g/m^3] Aspen Hysys at inlet condition
+Initial_Guess_Cs_C2H6       =  zeros(Nz,Nr);
+Initial_Guess_Cs_C2H4       =  zeros(Nz,Nr);
+Initial_Guess_Cs_O2         =  zeros(Nz,Nr);
+Initial_Guess_Cs_CO2        =  zeros(Nz,Nr);
+Initial_Guess_Cs_CO         =  zeros(Nz,Nr);
+Initial_Guess_Cs_H2O        =  zeros(Nz,Nr);
+Initial_Guess_Cpf           =  ones(Nz,Nr)*33.3; % [J/(mol.K)] Aspen Hysys at inlet condition
+Initial_Guess_T             =  ones(Nz,Nr)*T0;
+Initial_Guess_Ts            =  ones(Nz,Nr)*T0;
 
-Initial_Guess=[reshape(Initial_Guess_C_C2H6,1,Nz*Nr)  ,  reshape(Initial_Guess_C_C2H4,1,Nz*Nr)  ,...
-               reshape(Initial_Guess_C_O2,1,Nz*Nr)    ,  reshape(Initial_Guess_C_CO2,1,Nz*Nr)   ,...
-               reshape(Initial_Guess_C_CO,1,Nz*Nr)    ,  reshape(Initial_Guess_C_H2O,1,Nz*Nr)   ,...
-               reshape(Initial_Guess_Cs_C2H6,1,Nz*Nr) ,  reshape(Initial_Guess_Cs_C2H4,1,Nz*Nr) ,...
-               reshape(Initial_Guess_Cs_O2,1,Nz*Nr)   ,  reshape(Initial_Guess_Cs_CO2,1,Nz*Nr)  ,...
-               reshape(Initial_Guess_Cs_CO,1,Nz*Nr)   ,  reshape(Initial_Guess_Cs_H2O,1,Nz*Nr)  ,...
-               reshape(Initial_Guess_T,1,Nz*Nr)       ,  reshape(Initial_Guess_Ts,1,Nz*Nr)          ];
+Initial_Guess=[reshape(Initial_Guess_C_C2H6,1,Nz*Nr)  ,  reshape(Initial_Guess_C_C2H4,1,Nz*Nr)          ,...
+               reshape(Initial_Guess_C_O2,1,Nz*Nr)    ,  reshape(Initial_Guess_C_CO2,1,Nz*Nr)           ,...
+               reshape(Initial_Guess_C_CO,1,Nz*Nr)    ,  reshape(Initial_Guess_C_H2O,1,Nz*Nr)           ,...
+               reshape(Initial_Guess_C_N2,1,Nz*Nr)    ,  reshape(Initial_Guess_Density_fluid,1,Nz*Nr)   ,...
+               reshape(Initial_Guess_Cs_C2H6,1,Nz*Nr) ,  reshape(Initial_Guess_Cs_C2H4,1,Nz*Nr)         ,...
+               reshape(Initial_Guess_Cs_O2,1,Nz*Nr)   ,  reshape(Initial_Guess_Cs_CO2,1,Nz*Nr)          ,...
+               reshape(Initial_Guess_Cs_CO,1,Nz*Nr)   ,  reshape(Initial_Guess_Cs_H2O,1,Nz*Nr)          ,...
+               reshape(Initial_Guess_Cpf,1,Nz*Nr)     ,  reshape(Initial_Guess_T,1,Nz*Nr)               ,...
+               reshape(Initial_Guess_Ts,1,Nz*Nr)     ];
 
 %===Solver ----------------------------------------------------------------
 
