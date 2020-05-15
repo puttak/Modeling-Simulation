@@ -11,7 +11,7 @@ as = 6*(1-epsilon)/(Phis*dp);    % [m^2/m^3]                        External sur
 
 %% Defining the require constants of operation conditions
 R = 8.314;                             % [J/(mol*K)]                      Gas constant.
-P = 1*(101325);                        % [atm][Pa]                        Pressure of reactor bed.
+Pt = 1*(101325);                       % [atm][Pa]                        Pressure of reactor bed.
 Tb = 450+(273.15);                     % [oC][K]                          Temperature of reactor coolant.(450-600 C)
 T0 = 300+(273.15);                     % [oC][K]                          Temperature of inlet reactor.
 Rep = 1400;                            % [unitless]                       Reynolds number.
@@ -73,7 +73,7 @@ CO   = struct('Mw',28.01,   'Tc',134.18,    'Pc',3710046,...
 H2O  = struct('Mw',18.015,  'Tc',647.1081,  'Pc',22072227,...
     'cp_R',[3.47,0.00145,0,12100,2000]          ,'deltaS0',5.27e01 ,'deltaH0',(1000)*8.63e01);
 N2   = struct('Mw',28.014,  'Tc',126.2069,  'Pc',3398154.1,...
-    'cp_R',[3.28,0.000593,0,4000,2000]          ,'deltaS0',[]      ,'deltaH0',[]);
+    'cp_R',[3.28,0.000593,0,4000,2000]          ,'deltaS0',[0]      ,'deltaH0',[0]);
 
 Components = [C2H6 C2H4 O2 CO2 CO H2O N2];       % List of components
 
@@ -156,14 +156,14 @@ Initial_Guess_C_CO2         =  ones(Nz,Nr)*((P*y_CO2_in)/(R*T0)) ;
 Initial_Guess_C_CO          =  ones(Nz,Nr)*((P*y_CO_in)/(R*T0))  ;
 Initial_Guess_C_H2O         =  ones(Nz,Nr)*((P*y_H2O_in)/(R*T0)) ;
 Initial_Guess_C_N2          =  ones(Nz,Nr)*((P*y_N2_in)/(R*T0))  ;
-Initial_Guess_Density_fluid =  ones(Nz,Nr)*397.5; % [g/m^3] Aspen Hysys at inlet condition
+Initial_Guess_Density_fluid =  ones(Nz,Nr)*397.5;                           % [g/m^3] Aspen Hysys at inlet condition
 Initial_Guess_Cs_C2H6       =  zeros(Nz,Nr);
 Initial_Guess_Cs_C2H4       =  zeros(Nz,Nr);
 Initial_Guess_Cs_O2         =  zeros(Nz,Nr);
 Initial_Guess_Cs_CO2        =  zeros(Nz,Nr);
 Initial_Guess_Cs_CO         =  zeros(Nz,Nr);
 Initial_Guess_Cs_H2O        =  zeros(Nz,Nr);
-Initial_Guess_Cpf           =  ones(Nz,Nr)*33.3; % [J/(mol.K)] Aspen Hysys at inlet condition
+Initial_Guess_Cpf           =  ones(Nz,Nr)*33.3;                            % [J/(mol.K)] Aspen Hysys at inlet condition
 Initial_Guess_T             =  ones(Nz,Nr)*T0;
 Initial_Guess_Ts            =  ones(Nz,Nr)*T0;
 
